@@ -39,7 +39,7 @@ class MainActivity : WearableActivity(){
         images.add(R.drawable.kaczka)
         images.add(R.drawable.fibonacci)
         position = images.size/2
-        
+
         main_constraint.setBackgroundResource(images[position])
         val listener = OnSwipeTouchListener(this@MainActivity)
         swiper.setOnTouchListener(listener)
@@ -47,20 +47,16 @@ class MainActivity : WearableActivity(){
 
     fun moveForward(){
         position ++
-        if(position == images.size) {
-            Toast.makeText(this, "Can't go there", Toast.LENGTH_SHORT).show()
-            position--
-        }
-        else main_constraint.setBackgroundResource(images[position])
+        if(position == images.size)
+           position = 0
+        main_constraint.setBackgroundResource(images[position])
     }
 
     fun moveBackward(){
         position --
-        if(position < 0) {
-            Toast.makeText(this,"Can't go there", Toast.LENGTH_SHORT).show()
-            position = 0
-        }
-        else main_constraint.setBackgroundResource(images[position])
+        if(position < 0)
+            position = images.size - 1
+        main_constraint.setBackgroundResource(images[position])
     }
 
 
@@ -72,9 +68,9 @@ class MainActivity : WearableActivity(){
             gestureDetector = GestureDetector(context, GestureListener())
         }
 
-        fun onSwipeLeft() {moveBackward()}
+        fun onSwipeLeft() {moveForward()}
 
-        fun onSwipeRight() {moveForward()}
+        fun onSwipeRight() {moveBackward()}
 
         override fun onTouch(v: View, event: MotionEvent): Boolean {
             return gestureDetector.onTouchEvent(event)
